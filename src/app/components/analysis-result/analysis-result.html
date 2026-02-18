@@ -1,0 +1,24 @@
+@if (result()) {
+<div class="results-panel glass-panel">
+    <div class="section-header">
+        <h2>Review Status</h2>
+    </div>
+    <div class="result-container">
+        <div id="analysis-result" class="result-panel-content">
+            <div class="score-card">
+                <app-score-circle [score]="result()!.score" />
+            </div>
+            <div class="issues-list">
+                @for (issue of result()!.issues; track $index) {
+                <app-issue-item [issue]="issue" />
+                }
+            </div>
+        </div>
+    </div>
+</div>
+} @else {
+<div class="empty-results">
+    <div class="pulse-icon">⚡</div>
+    <p>Ready to analyze your code...</p>
+</div>
+}

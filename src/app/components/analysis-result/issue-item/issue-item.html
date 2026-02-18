@@ -1,0 +1,10 @@
+@if (issue()) {
+<div class="issue-item" [attr.data-severity]="issue()!.severity">
+    <div class="issue-badge">{{ issue()!.severity }}</div>
+    <div class="issue-content">
+        <h3>{{ issue()!.explanation }}</h3>
+        <p>{{ issue()!.suggestion }}</p>
+    </div>
+    <div class="issue-category">{{ issue()!.category }}</div>
+</div>
+}

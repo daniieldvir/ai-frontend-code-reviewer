@@ -1,0 +1,5 @@
+@for (framework of frameworks(); track framework) {
+<button [class.active]="selectedFramework() === framework" (click)="select(framework)">
+    {{ framework }}
+</button>
+}

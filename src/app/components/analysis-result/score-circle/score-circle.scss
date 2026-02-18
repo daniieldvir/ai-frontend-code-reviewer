@@ -1,0 +1,43 @@
+.score-circle {
+    width: 150px;
+    text-align: center;
+    position: relative;
+
+    .score-label {
+        display: block;
+        margin-top: 0.5rem;
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+
+    .circular-chart {
+        display: block;
+        margin: 0 auto;
+        max-width: 100%;
+        max-height: 250px;
+
+        .circle-bg {
+            fill: none;
+            stroke: var(--bg-accent);
+            stroke-width: 2.8;
+        }
+
+        .circle {
+            fill: none;
+            stroke-width: 2.8;
+            stroke-linecap: round;
+            transition: stroke-dasharray 1s ease;
+        }
+
+        .percentage {
+            fill: white;
+            font-family: var(--font-header);
+            font-size: 0.5rem;
+            font-weight: 700;
+            text-anchor: middle;
+        }
+    }
+}

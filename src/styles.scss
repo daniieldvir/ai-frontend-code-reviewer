@@ -1,1 +1,75 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --bg-main: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-accent: #334155;
+  
+  --primary-glow: rgba(56, 189, 248, 0.4);
+  --secondary-glow: rgba(129, 140, 248, 0.3);
+  
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  
+  --accent-cyan: #22d3ee;
+  --accent-blue: #38bdf8;
+  --accent-indigo: #818cf8;
+  
+  --success: #4ade80;
+  --warning: #fbbf24;
+  --error: #f87171;
+  
+  --glass-bg: rgba(30, 41, 59, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  
+  --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  --font-header: 'Outfit', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-main);
+  background-image: 
+    radial-gradient(at 0% 0%, var(--primary-glow) 0, transparent 50%),
+    radial-gradient(at 100% 0%, var(--secondary-glow) 0, transparent 50%);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-header);
+  font-weight: 700;
+}
+
+/* Glassmorphism Utilities */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-lg);
+}
+
+
+/* Custom Component Defaults */
+button {
+  cursor: pointer;
+  border: none;
+  font-family: var(--font-header);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+textarea, input {
+  font-family: inherit;
+  font-size: 1rem;
+}
