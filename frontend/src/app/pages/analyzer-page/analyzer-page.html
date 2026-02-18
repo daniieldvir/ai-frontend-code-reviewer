@@ -10,7 +10,11 @@
     </header>
 
     <main class="dashboard-content">
-        <app-code-input />
-        <app-analysis-result [result]="mockResult()" />
+        <app-code-input (codeToAnalyze)="analyzeCode($event)" />
+        <app-analysis-result [result]="result()" />
     </main>
+
+    @if (error()) {
+    <app-error-popup [title]="'Analysis Error'" [message]="error()" (onClose)="closeError()" />
+    }
 </div>

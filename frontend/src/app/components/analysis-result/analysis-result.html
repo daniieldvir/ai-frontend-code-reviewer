@@ -1,5 +1,6 @@
-@if (result()) {
+
 <div class="results-panel glass-panel">
+    @if (result()) {
     <div class="section-header">
         <h2>Review Status</h2>
     </div>
@@ -15,10 +16,11 @@
             </div>
         </div>
     </div>
+    }
+ @else {
+        <div class="empty-results">
+            <div class="pulse-icon">⚡</div>
+            <p>Ready to analyze your code...</p>
+        </div>
+    }
 </div>
-} @else {
-<div class="empty-results">
-    <div class="pulse-icon">⚡</div>
-    <p>Ready to analyze your code...</p>
-</div>
-}

@@ -1,0 +1,37 @@
+<div class="control-panel glass-panel">
+    <div class="section-header">
+        <h2>Code Analysis</h2>
+        <p>Paste your component code below for a deep architectural review.</p>
+    </div>
+
+    <form (submit)="handleAnalyzeCode($event)">
+        <div class="input-group">
+            <label for="framework">Project Framework</label>
+            <div class="framework-select-wrapper">
+                <app-framework-selector (selectedFrameworkEmitter)="framework.set($event)" />
+            </div>
+        </div>
+
+        <div class="input-group editor-group">
+            <label for="code-input">Source Code</label>
+            <div class="editor-container">
+                <textarea id="code-input" 
+                    [value]="code()"
+                    (input)="onCodeInput($event)"
+                    placeholder="// Paste your React, Angular, or Vue code here..." 
+                    spellcheck="false"></textarea>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button  class="btn-primary" type="submit">
+                <span>Analyze Code</span>
+                <div class="btn-glow"></div>
+            </button>
+        </div>
+    </form>
+</div>
+
+@if (error()) {
+    <app-error-popup [title]="'Form Not Valid'" [message]="error()" (onClose)="closeError()" />
+    }

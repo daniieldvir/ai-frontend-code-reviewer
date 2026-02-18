@@ -2,6 +2,7 @@ import { Component, input } from '@angular/core';
 import { AnalysisResult as AnalysisResultType } from '../../core/types';
 import { ScoreCircle } from './score-circle/score-circle';
 import { IssueItem } from './issue-item/issue-item';
+import { AnalysisService } from '../../core/analysis-engine.service';
 
 @Component({
   selector: 'app-analysis-result',
