@@ -1,3 +1,5 @@
+@use '../../../style/media-screen' as *;
+
 .dashboard-wrapper {
     max-width: 1400px;
     margin: 0 auto;
@@ -6,6 +8,11 @@
     flex-direction: column;
     gap: 2rem;
     min-height: 100vh;
+
+    @include mobile {
+        padding: 1rem;
+        gap: 1.5rem;
+    }
 }
 
 
@@ -15,8 +22,12 @@
     gap: 2rem;
     flex: 1;
 
-    @media (max-width: 1024px) {
+    @include laptop {
         grid-template-columns: 1fr;
+    }
+
+    @include mobile {
+        gap: 1.5rem;
     }
 }
 
@@ -25,4 +36,13 @@ app-code-input,
 app-analysis-result {
     height: calc(100vh - 12rem);
     min-height: 600px;
+
+    @include laptop {
+        height: auto;
+        min-height: 400px;
+    }
+
+    @include mobile {
+        min-height: 300px;
+    }
 }
