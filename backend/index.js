@@ -7,8 +7,17 @@ import { rules } from "./groq-rules.js";
 dotenv.config();
 
 const app = express();
-app.use(cors({ origin: "http://localhost:4200" })); // Angular frontend
+app.use(cors({
+  origin: ['http://localhost:4200', 'https://daniieldvir.github.io'],
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
+
+// Health check endpoint
+app.get("/", (req, res) => {
+  res.send("Backend is running! 🚀");
+});
 
 // Groq client (using OpenAI compatible SDK)
 const groq = new OpenAI({
