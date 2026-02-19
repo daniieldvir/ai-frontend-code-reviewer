@@ -47,7 +47,7 @@
                         border-radius: 12px;
                         overflow: hidden;
                         border: 1px solid var(--glass-border);
-                        background: rgba(0, 0, 0, 0.2);
+                        background: var(--bg-main);
                         transition: border-color 0.3s ease;
 
                         &:focus-within {
@@ -59,7 +59,7 @@
                             height: 100%;
                             background: transparent;
                             border: none;
-                            color: #e2e8f0;
+                            color: var(--text-primary);
                             padding: 1rem;
                             resize: none;
                             outline: none;

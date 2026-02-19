@@ -1,13 +1,5 @@
 <div class="dashboard-wrapper">
-    <header class="main-header">
-        <div class="logo">
-            <div class="logo-pulse"></div>
-            <h1>AI Frontend <span>Reviewer</span></h1>
-        </div>
-        <div class="header-actions">
-            <span class="status-badge"><span class="dot"></span> AI Engine Online</span>
-        </div>
-    </header>
+    <app-header />
 
     <main class="dashboard-content">
         <app-code-input (codeToAnalyze)="analyzeCode($event)" />
