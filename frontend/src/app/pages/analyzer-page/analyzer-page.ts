@@ -18,6 +18,7 @@ export class AnalyzerPage {
   private readonly analysisService = inject(AnalysisService);
   readonly result = this.analysisService.result;
   readonly error = this.analysisService.error;
+  readonly loading = this.analysisService.loading;
 
   closeError() {
     this.analysisService.error.set(null);

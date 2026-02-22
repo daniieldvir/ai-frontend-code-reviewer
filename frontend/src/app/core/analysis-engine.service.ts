@@ -1,72 +1,102 @@
-import { Injectable, signal } from "@angular/core";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { inject, Injectable, signal } from "@angular/core";
+import { catchError, finalize, Observable, throwError } from "rxjs";
 import { AnalysisResult, Framework } from "./types";
 
+const PRODUCTION_URL = 'https://ai-frontend-code-reviewer.onrender.com';
+const LOCAL_URL = 'http://localhost:3000';
+
+const severityOrder: Record<string, number> = {
+    CRITICAL: 0,
+    HIGH: 1,
+    MEDIUM: 2,
+    LOW: 3,
+};
 
 @Injectable({ providedIn: 'root' })
 export class AnalysisService {
     result = signal<AnalysisResult | null>(null);
     error = signal<string | null>(null);
+    loading = signal<boolean>(false);
+
+    private readonly http = inject(HttpClient);
 
     constructor() {
         this.wakeUp();
     }
 
-    private async wakeUp() {
-        const PRODUCTION_URL = 'https://ai-frontend-code-reviewer.onrender.com';
-        fetch(PRODUCTION_URL).catch(() => { });
-        if (window.location.hostname === 'localhost') {
-            fetch('http://localhost:3000').catch(() => { });
-        }
-    }
-
-    async analyze(code: string, framework: Framework) {
-        this.error.set(null);
-        const PRODUCTION_URL = 'https://ai-frontend-code-reviewer.onrender.com/analyze';
-        const LOCAL_URL = 'http://localhost:3000/analyze';
-
-        const isLocal = window.location.hostname === 'localhost';
-        const apiUrl = isLocal ? LOCAL_URL : PRODUCTION_URL;
-
-        try {
-            await this.performAnalysis(apiUrl, code, framework);
-        } catch (err: any) {
-            if (isLocal && apiUrl === LOCAL_URL) {
-                console.warn('Local backend unreachable, falling back to production...');
-                try {
-                    await this.performAnalysis(PRODUCTION_URL, code, framework);
-                } catch (fallbackErr: any) {
-                    this.handleError(fallbackErr);
-                }
-            } else {
-                this.handleError(err);
-            }
-        }
-    }
-
-    private async performAnalysis(url: string, code: string, framework: Framework) {
-        console.log(`Analyzing via: ${url}`);
-        const res = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ code, framework })
+    private wakeUp() {
+        this.http.get(PRODUCTION_URL, { responseType: 'text' }).subscribe({
+            next: () => { },
+            error: () => { }
         });
 
-        if (!res.ok) {
-            if (res.status === 502 || res.status === 503 || res.status === 504) {
-                throw new Error('Server is still waking up from sleep. Please try again in 30 seconds.');
-            }
-            throw new Error(`Server error (${res.status})`);
+        if (window.location.hostname === 'localhost') {
+            this.http.get(LOCAL_URL, { responseType: 'text' }).subscribe({
+                next: () => { },
+                error: () => { }
+            });
         }
-
-        const data: AnalysisResult = await res.json();
-        this.result.set(data);
     }
 
-    private handleError(err: any) {
+    analyze(code: string, framework: Framework) {
+        this.error.set(null);
+        this.loading.set(true);
+        this.result.set(null); // Reset the result when analyzing new code
+        const productionUrl = `${PRODUCTION_URL}/analyze`;
+        const localUrl = `${LOCAL_URL}/analyze`;
+
+        const isLocal = window.location.hostname === 'localhost';
+        const apiUrl = isLocal ? localUrl : productionUrl;
+
+        this.performAnalysis(apiUrl, code, framework).pipe(
+            catchError((err: HttpErrorResponse | Error) => {
+                if (isLocal && apiUrl === localUrl) {
+                    console.warn('Local backend unreachable, falling back to production...');
+                    return this.performAnalysis(productionUrl, code, framework);
+                }
+                return throwError(() => err);
+            }),
+            finalize(() => {
+                this.loading.set(false);
+            })
+        ).subscribe({
+            next: (data: AnalysisResult) => {
+                console.log('Data received:', data);
+                const sortedData = {
+                    ...data,
+                    issues: [...data.issues].sort(
+                        (a, b) => severityOrder[a.severity.toUpperCase()] - severityOrder[b.severity.toUpperCase()]
+                    ),
+                };
+                this.result.set(sortedData);
+            },
+            error: (err: HttpErrorResponse | Error) => {
+                this.handleError(err);
+            }
+        });
+    }
+
+    private performAnalysis(url: string, code: string, framework: Framework): Observable<AnalysisResult> {
+        console.log(`Analyzing via: ${url}`);
+        return this.http.post<AnalysisResult>(url, { code, framework }).pipe(
+            catchError((err: HttpErrorResponse) => {
+                if (err.status === 502 || err.status === 503 || err.status === 504) {
+                    return throwError(() => new Error('Server is still waking up from sleep. Please try again in 30 seconds.'));
+                }
+                return throwError(() => new Error(`Server error (${err.status})`));
+            })
+        );
+    }
+
+    private handleError(err: HttpErrorResponse | Error) {
         console.error('Analysis failed:', err);
         this.result.set(null);
-        this.error.set(err.message === 'Failed to fetch'
-            ? 'Connection failed. The server might be down or waking up.'
-            : err.message);
+        const errorMessage = err instanceof HttpErrorResponse
+            ? (err.error?.message || `Server error (${err.status})`)
+            : (err.message === 'Failed to fetch'
+                ? 'Connection failed. The server might be down or waking up.'
+                : err.message);
+        this.error.set(errorMessage);
     }
 }

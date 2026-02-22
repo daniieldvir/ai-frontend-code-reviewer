@@ -3,10 +3,11 @@
 
     <main class="dashboard-content">
         <app-code-input (codeToAnalyze)="analyzeCode($event)" />
-        <app-analysis-result [result]="result()" />
+        <app-analysis-result [result]="result()" [loading]="loading()" />
     </main>
 
     @if (error()) {
     <app-error-popup [title]="'Analysis Error'" [message]="error()" (onClose)="closeError()" />
     }
+
 </div>

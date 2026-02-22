@@ -27,12 +27,23 @@ const groq = new OpenAI({
 
 // Function that builds the prompt for the AI
 function buildPrompt(code, framework) {
-  const frameworkRules = rules[framework] || "";
+  // Normalize framework name to lowercase for rules lookup
+  const frameworkKey = framework.toLowerCase();
+  const frameworkRules = rules[frameworkKey] || "";
 
   return `
 You are a senior frontend engineer.
 Analyze the following ${framework} code.
 Focus on performance, readability, and best practices.
+
+CRITICAL: First check for syntax errors, compilation errors, and missing dependencies.
+These MUST be marked with severity "high" or "critical".
+Examples:
+- Missing imports
+- Missing required dependencies (like inject() calls in Angular)
+- Syntax errors
+- Type errors that would prevent compilation
+- Undefined variables or methods
 
 IMPORTANT RULES FOR ${framework.toUpperCase()}:
 ${frameworkRules}
@@ -42,8 +53,8 @@ Return ONLY valid JSON with this structure:
   "score": number, (0-100)
   "issues": [
     {
-      "category": "performance|readability|security|best-practice",
-      "severity": "low|medium|high",
+      "category": "performance|readability|security|best-practice|syntax|compilation",
+      "severity": "low|medium|high|critical",
       "explanation": "string",
       "suggestion": "string"
     }
@@ -75,6 +86,15 @@ app.post("/analyze", async (req, res) => {
 
     try {
       const result = JSON.parse(content);
+
+      // Add unique IDs to each issue
+      if (result.issues && Array.isArray(result.issues)) {
+        result.issues = result.issues.map((issue, index) => ({
+          ...issue,
+          id: `issue-${Date.now()}-${index}-${Math.random().toString(36).substr(2, 9)}`
+        }));
+      }
+
       res.json(result);
     } catch (err) {
       console.error("Failed to parse JSON:", content);
@@ -89,6 +109,7 @@ app.post("/analyze", async (req, res) => {
       // Fallback response so frontend doesn't break
       score: 0,
       issues: [{
+        id: `issue-error-${Date.now()}`,
         category: "error",
         severity: "high",
         explanation: "The AI service is currently unavailable or returned an invalid response.",

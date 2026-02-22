@@ -1,8 +1,9 @@
-export type Framework = 'React' | 'Angular' | 'Vue' ;
+export type Framework = 'React' | 'Angular' | 'Vue';
 
 export interface AnalysisIssue {
-  category: 'performance' | 'readability' | 'best-practices';
-  severity: 'low' | 'medium' | 'high';
+  id: string;
+  category: 'performance' | 'readability' | 'best-practices' | 'syntax' | 'compilation' | 'security';
+  severity: 'low' | 'medium' | 'high' | 'critical';
   explanation: string;
   suggestion: string;
 }
