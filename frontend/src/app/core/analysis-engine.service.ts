@@ -64,7 +64,6 @@ export class AnalysisService {
       )
       .subscribe({
         next: (data: AnalysisResult) => {
-          console.log('Data received:', data);
           const sortedData = {
             ...data,
             issues: [...data.issues].sort(
@@ -85,7 +84,6 @@ export class AnalysisService {
     code: string,
     framework: Framework,
   ): Observable<AnalysisResult> {
-    console.log(`Analyzing via: ${url}`);
     return this.http.post<AnalysisResult>(url, { code, framework }).pipe(
       catchError((err: HttpErrorResponse) => {
         if (err.status === 502 || err.status === 503 || err.status === 504) {

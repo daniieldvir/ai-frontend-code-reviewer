@@ -17,7 +17,6 @@ export class AnalysisResult {
   readonly infoPopupIssue = signal<AnalysisIssue | null>(null);
 
   openExplanationModal(issue: AnalysisIssue) {
-    console.log('openExplanationModal', issue);
     this.infoPopupOpen.set(true);
     this.infoPopupIssue.set(issue);
   }

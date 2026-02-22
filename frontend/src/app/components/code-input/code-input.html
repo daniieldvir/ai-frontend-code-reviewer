@@ -8,13 +8,13 @@
     <div class="input-group">
       <label for="framework">Project Framework</label>
       <div class="framework-select-wrapper">
-        <app-framework-selector (selectedFrameworkEmitter)="framework.set($event)" />
+        <app-framework-selector (selectedFrameworkEmitter)="handleFrameworkSelect($event)" />
       </div>
     </div>
 
     <div class="input-group editor-group">
       <label for="code-input">Source Code</label>
-      <div class="editor-container">
+      <div class="editor-container" [class.clearing-flash]="isClearing()">
         <textarea
           id="code-input"
           [value]="code()"
