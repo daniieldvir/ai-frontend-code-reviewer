@@ -1,10 +1,10 @@
 :host {
-    display: flex;
-    gap: 0.75rem;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 
-    app-button {
-        --button-border-radius: 100px;
-        --button-width: 88px;
-    }
+  app-button {
+    --button-border-radius: 100px;
+    --button-width: 88px;
+  }
 }

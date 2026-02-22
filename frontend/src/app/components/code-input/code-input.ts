@@ -16,12 +16,10 @@ export class CodeInput {
   code = signal('');
   error = signal<string | null>(null);
 
-
   formValue = computed(() => ({
     framework: this.framework(),
-    code: this.code()
+    code: this.code(),
   }));
-
 
   onCodeInput(event: Event) {
     const target = event.target as HTMLTextAreaElement;

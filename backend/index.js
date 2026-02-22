@@ -7,11 +7,13 @@ import { rules } from "./groq-rules.js";
 dotenv.config();
 
 const app = express();
-app.use(cors({
-  origin: ['http://localhost:4200', 'https://daniieldvir.github.io'],
-  methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+app.use(
+  cors({
+    origin: ["http://localhost:4200", "https://daniieldvir.github.io"],
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  }),
+);
 app.use(express.json());
 
 // Health check endpoint
@@ -22,7 +24,7 @@ app.get("/", (req, res) => {
 // Groq client (using OpenAI compatible SDK)
 const groq = new OpenAI({
   apiKey: process.env.GROQ_API_KEY || process.env.OPENAI_API_KEY,
-  baseURL: "https://api.groq.com/openai/v1"
+  baseURL: "https://api.groq.com/openai/v1",
 });
 
 // Function that builds the prompt for the AI
@@ -79,7 +81,7 @@ app.post("/analyze", async (req, res) => {
       model: "llama-3.3-70b-versatile",
       messages: [{ role: "user", content: buildPrompt(code, framework) }],
       temperature: 0,
-      response_format: { type: "json_object" }
+      response_format: { type: "json_object" },
     });
 
     const content = response.choices[0].message.content;
@@ -91,7 +93,7 @@ app.post("/analyze", async (req, res) => {
       if (result.issues && Array.isArray(result.issues)) {
         result.issues = result.issues.map((issue, index) => ({
           ...issue,
-          id: `issue-${Date.now()}-${index}-${Math.random().toString(36).substr(2, 9)}`
+          id: `issue-${Date.now()}-${index}-${Math.random().toString(36).substr(2, 9)}`,
         }));
       }
 
@@ -100,7 +102,6 @@ app.post("/analyze", async (req, res) => {
       console.error("Failed to parse JSON:", content);
       throw new Error("Invalid JSON response from AI");
     }
-
   } catch (err) {
     console.error(err);
     res.status(500).json({
@@ -108,17 +109,19 @@ app.post("/analyze", async (req, res) => {
       details: err.message,
       // Fallback response so frontend doesn't break
       score: 0,
-      issues: [{
-        id: `issue-error-${Date.now()}`,
-        category: "error",
-        severity: "high",
-        explanation: "The AI service is currently unavailable or returned an invalid response.",
-        suggestion: "Please check your API key and internet connection."
-      }]
+      issues: [
+        {
+          id: `issue-error-${Date.now()}`,
+          category: "error",
+          severity: "high",
+          explanation:
+            "The AI service is currently unavailable or returned an invalid response.",
+          suggestion: "Please check your API key and internet connection.",
+        },
+      ],
     });
   }
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));
-

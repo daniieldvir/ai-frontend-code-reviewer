@@ -1,7 +1,8 @@
 <button class="btn-primary" type="button" (click)="handleClick()" [class.active]="active()">
-    @if (icon()) {
+  @if (icon()) {
     <img class="icon" src="assets/SVG/{{ icon() }}.svg" alt="{{ icon() }}" />
-    }@if (label()) {
+  }
+  @if (label()) {
     <span>{{ label() }}</span>
-    }
+  }
 </button>

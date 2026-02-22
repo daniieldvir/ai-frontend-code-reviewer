@@ -1,48 +1,46 @@
 @use '../../../style/media-screen' as *;
 
 .dashboard-wrapper {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    min-height: 100vh;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  min-height: 100vh;
 
-    @include mobile {
-        padding: 1rem;
-        gap: 1.5rem;
-    }
+  @include mobile {
+    padding: 1rem;
+    gap: 1.5rem;
+  }
 }
-
 
 .dashboard-content {
-    display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-    gap: 2rem;
-    flex: 1;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 2rem;
+  flex: 1;
 
-    @include laptop {
-        grid-template-columns: 1fr;
-    }
+  @include laptop {
+    grid-template-columns: 1fr;
+  }
 
-    @include mobile {
-        gap: 1.5rem;
-    }
+  @include mobile {
+    gap: 1.5rem;
+  }
 }
-
 
 app-code-input,
 app-analysis-result {
-    height: calc(100vh - 12rem);
-    min-height: 600px;
+  height: calc(100vh - 12rem);
+  min-height: 600px;
 
-    @include laptop {
-        height: auto;
-        min-height: 400px;
-    }
+  @include laptop {
+    height: auto;
+    min-height: 400px;
+  }
 
-    @include mobile {
-        min-height: 300px;
-    }
+  @include mobile {
+    min-height: 300px;
+  }
 }

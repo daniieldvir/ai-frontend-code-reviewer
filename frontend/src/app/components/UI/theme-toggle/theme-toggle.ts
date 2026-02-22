@@ -9,7 +9,6 @@ import { Button } from '../button/button';
   imports: [CommonModule, Button],
   templateUrl: './theme-toggle.html',
   styleUrl: './theme-toggle.scss',
-
 })
 export class ThemeToggle {
   protected readonly themeService = inject(ThemeService);

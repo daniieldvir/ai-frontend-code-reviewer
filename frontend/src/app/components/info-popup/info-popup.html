@@ -1,12 +1,12 @@
 <div class="info-popup active" (click)="close()">
-    <div class="info-popup-content" (click)="$event.stopPropagation()">
-        <header>Issue Info</header>
-        <div class="content">
-            <h3>{{ title() }}</h3>
-            <p>{{ message() }}</p>
-        </div>
-        <footer>
-            <button (click)="close()">Close</button>
-        </footer>
+  <div class="info-popup-content" (click)="$event.stopPropagation()">
+    <header>Issue Info</header>
+    <div class="content">
+      <h3>{{ title() }}</h3>
+      <p>{{ message() }}</p>
     </div>
+    <footer>
+      <button (click)="close()">Close</button>
+    </footer>
+  </div>
 </div>

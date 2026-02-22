@@ -1,13 +1,12 @@
 <div class="dashboard-wrapper">
-    <app-header />
+  <app-header />
 
-    <main class="dashboard-content">
-        <app-code-input (codeToAnalyze)="analyzeCode($event)" />
-        <app-analysis-result [result]="result()" [loading]="loading()" />
-    </main>
+  <main class="dashboard-content">
+    <app-code-input (codeToAnalyze)="analyzeCode($event)" />
+    <app-analysis-result [result]="result()" [loading]="loading()" />
+  </main>
 
-    @if (error()) {
+  @if (error()) {
     <app-error-popup [title]="'Analysis Error'" [message]="error()" (onClose)="closeError()" />
-    }
-
+  }
 </div>

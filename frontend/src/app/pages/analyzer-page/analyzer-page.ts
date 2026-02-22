@@ -7,7 +7,6 @@ import { AnalysisService } from '../../core/analysis-engine.service';
 import { AnalysisResult as AnalysisResultType, Framework } from '../../core/types';
 import { Header } from '../../components/UI/header/header';
 
-
 @Component({
   selector: 'app-analyzer-page',
   imports: [FrameworkSelector, AnalysisResult, CodeInput, ErrorPopup, Header],

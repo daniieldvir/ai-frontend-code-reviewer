@@ -11,8 +11,8 @@ export class ScoreCircle {
 
   public color = computed(() => {
     const s = this.score();
-    if (s >= 80) return 'var(--success)'; 
+    if (s >= 80) return 'var(--success)';
     if (s >= 50) return 'var(--warning)';
-    return 'var(--error)';               
+    return 'var(--error)';
   });
 }

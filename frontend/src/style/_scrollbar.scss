@@ -1,18 +1,18 @@
 @mixin scrollbar() {
-    &::-webkit-scrollbar {
-        width: 8px;
-    }
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
 
-    &::-webkit-scrollbar-track {
-        background: var(--bg-main);
-    }
+  &::-webkit-scrollbar-track {
+    background: var(--bg-main);
+  }
 
-    &::-webkit-scrollbar-thumb {
-        background: var(--bg-accent);
-        border-radius: 4px;
-    }
+  &::-webkit-scrollbar-thumb {
+    background: var(--bg-accent);
+    border-radius: 4px;
+  }
 
-    &::-webkit-scrollbar-thumb:hover {
-        background: var(--text-muted);
-    }
+  &::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+  }
 }

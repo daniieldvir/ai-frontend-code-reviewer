@@ -10,13 +10,12 @@ import { Button } from '../UI/button/button';
 })
 export class FrameworkSelector {
   protected readonly selectedFrameworkEmitter = output<Framework>();
-  
-  protected readonly frameworks = signal<Framework[]>(['Angular', 'React', 'Vue', ]);
+
+  protected readonly frameworks = signal<Framework[]>(['Angular', 'React', 'Vue']);
   protected readonly selectedFramework = signal<Framework | null>(null);
-  
 
   select(framework: Framework) {
-    this.selectedFramework.set(framework); 
+    this.selectedFramework.set(framework);
     this.selectedFrameworkEmitter.emit(framework);
   }
 }

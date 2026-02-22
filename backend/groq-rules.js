@@ -38,5 +38,5 @@ export const rules = {
     - Suggest using computed properties instead of methods in templates where applicable.
     - Verify proper prop definitions and type safety.
     - Check for direct state mutation (should use reactive/ref setters).
-  `
+  `,
 };

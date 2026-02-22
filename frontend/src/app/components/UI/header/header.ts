@@ -7,6 +7,4 @@ import { ThemeToggle } from '../theme-toggle/theme-toggle';
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
-export class Header {
-
-}
+export class Header {}

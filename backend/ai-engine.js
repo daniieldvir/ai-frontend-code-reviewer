@@ -3,7 +3,7 @@ import { rules } from "./groq-rules.js";
 
 const groq = new OpenAI({
   apiKey: process.env.GROQ_API_KEY || process.env.OPENAI_API_KEY,
-  baseURL: "https://api.groq.com/openai/v1"
+  baseURL: "https://api.groq.com/openai/v1",
 });
 
 export async function analyzeCode({ code, framework }) {
@@ -38,7 +38,7 @@ ${code}
     model: "llama-3.3-70b-versatile",
     messages: [{ role: "user", content: prompt }],
     temperature: 0,
-    response_format: { type: "json_object" }
+    response_format: { type: "json_object" },
   });
 
   const result = JSON.parse(response.choices[0].message.content);

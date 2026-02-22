@@ -22,7 +22,6 @@ export class AnalysisResult {
     this.infoPopupIssue.set(issue);
   }
 
-
   closeInfoPopup() {
     this.infoPopupOpen.set(false);
     this.infoPopupIssue.set(null);
