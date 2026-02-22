@@ -1,6 +1,6 @@
 import { Component, input, signal } from '@angular/core';
 import { AnalysisIssue, AnalysisResult as AnalysisResultType } from '../../core/types';
-import { InfoPopup } from '../UI/info-popup/info-popup/info-popup';
+import { InfoPopup } from '../info-popup/info-popup';
 import { IssueItem } from './issue-item/issue-item';
 import { ScoreCircle } from './score-circle/score-circle';
 

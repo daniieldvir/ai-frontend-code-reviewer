@@ -33,5 +33,5 @@
 </div>
 
 @if (error()) {
-    <app-error-popup [title]="'Form Not Valid'" [message]="error()" (onClose)="closeError()" />
+    <app-error-popup [title]="'Error'" [message]="error()" (onClose)="closeError()" />
     }
