@@ -1,9 +1,28 @@
 <div class="info-popup active" (click)="close()">
   <div class="info-popup-content" (click)="$event.stopPropagation()">
-    <header>Issue Info</header>
+    <header>
+      <span>Issue Info</span>
+      @if (issue()) {
+      <div class="header-badges">
+        <span class="severity-badge" [attr.data-severity]="issue()!.severity">{{ issue()!.severity }}</span>
+        <span class="category-badge">{{ issue()!.category }}</span>
+      </div>
+      }
+    </header>
     <div class="content">
-      <h3>{{ title() }}</h3>
-      <p>{{ message() }}</p>
+      <h3>{{ issue()?.explanation }}</h3>
+
+      @if (issue()?.detailedExplanation && issue()?.detailedExplanation !== issue()?.explanation) {
+      <div class="detailed-section">
+        <h4>📖 Detailed Explanation</h4>
+        <p class="detailed-text">{{ issue()!.detailedExplanation }}</p>
+      </div>
+      }
+
+      <div class="suggestion-section">
+        <h4>💡 Suggestion</h4>
+        <p>{{ issue()?.suggestion }}</p>
+      </div>
     </div>
     <footer>
       <button (click)="close()">Close</button>

@@ -2,7 +2,6 @@ import { Component, input, output } from '@angular/core';
 
 @Component({
   selector: 'app-error-popup',
-  standalone: true,
   imports: [],
   templateUrl: './error-popup.html',
   styleUrl: './error-popup.scss',

@@ -15,9 +15,13 @@ const severityOrder: Record<string, number> = {
 
 @Injectable({ providedIn: 'root' })
 export class AnalysisService {
-  result = signal<AnalysisResult | null>(null);
-  error = signal<string | null>(null);
-  loading = signal<boolean>(false);
+  private readonly _result = signal<AnalysisResult | null>(null);
+  private readonly _error = signal<string | null>(null);
+  private readonly _loading = signal<boolean>(false);
+
+  readonly result = this._result.asReadonly();
+  readonly error = this._error.asReadonly();
+  readonly loading = this._loading.asReadonly();
 
   private readonly http = inject(HttpClient);
 
@@ -27,22 +31,30 @@ export class AnalysisService {
 
   private wakeUp() {
     this.http.get(PRODUCTION_URL, { responseType: 'text' }).subscribe({
-      next: () => {},
-      error: () => {},
+      next: () => { },
+      error: () => { },
     });
 
     if (window.location.hostname === 'localhost') {
       this.http.get(LOCAL_URL, { responseType: 'text' }).subscribe({
-        next: () => {},
-        error: () => {},
+        next: () => { },
+        error: () => { },
       });
     }
   }
 
+  clearError() {
+    this._error.set(null);
+  }
+
+  clearResult() {
+    this._result.set(null);
+  }
+
   analyze(code: string, framework: Framework) {
-    this.error.set(null);
-    this.loading.set(true);
-    this.result.set(null); // Reset the result when analyzing new code
+    this._error.set(null);
+    this._loading.set(true);
+    this._result.set(null);
     const productionUrl = `${PRODUCTION_URL}/analyze`;
     const localUrl = `${LOCAL_URL}/analyze`;
 
@@ -59,7 +71,7 @@ export class AnalysisService {
           return throwError(() => err);
         }),
         finalize(() => {
-          this.loading.set(false);
+          this._loading.set(false);
         }),
       )
       .subscribe({
@@ -71,7 +83,7 @@ export class AnalysisService {
                 severityOrder[a.severity.toUpperCase()] - severityOrder[b.severity.toUpperCase()],
             ),
           };
-          this.result.set(sortedData);
+          this._result.set(sortedData);
         },
         error: (err: HttpErrorResponse | Error) => {
           this.handleError(err);
@@ -99,13 +111,13 @@ export class AnalysisService {
 
   private handleError(err: HttpErrorResponse | Error) {
     console.error('Analysis failed:', err);
-    this.result.set(null);
+    this._result.set(null);
     const errorMessage =
       err instanceof HttpErrorResponse
         ? err.error?.message || `Server error (${err.status})`
         : err.message === 'Failed to fetch'
           ? 'Connection failed. The server might be down or waking up.'
           : err.message;
-    this.error.set(errorMessage);
+    this._error.set(errorMessage);
   }
 }

@@ -48,8 +48,7 @@
             overflow: hidden;
             border: 1px solid var(--glass-border);
             background: var(--bg-main);
-            transition: border-color 0.3s ease;
-            transition: transform 0.2s ease;
+            transition: border-color 0.3s ease, transform 0.2s ease;
 
             &:focus-within {
               border-color: var(--accent-blue);

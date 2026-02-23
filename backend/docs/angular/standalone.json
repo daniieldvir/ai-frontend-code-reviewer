@@ -1,0 +1,66 @@
+{
+    "concept": "standalone",
+    "framework": "angular",
+    "version": "15+",
+    "keywords": [
+        "standalone",
+        "imports",
+        "bootstrapApplication",
+        "provideRouter",
+        "provideHttpClient"
+    ],
+    "patterns": [
+        "standalone:\\s*true",
+        "bootstrapApplication",
+        "provideRouter",
+        "provideHttpClient",
+        "provideAnimations",
+        "provideZoneChangeDetection"
+    ],
+    "deprecatedKeywords": [
+        "NgModule",
+        "declarations",
+        "BrowserModule",
+        "CommonModule",
+        "HttpClientModule",
+        "RouterModule",
+        "BrowserAnimationsModule"
+    ],
+    "deprecatedPatterns": [
+        "@NgModule",
+        "declarations:",
+        "HttpClientModule",
+        "RouterModule\\.forRoot",
+        "BrowserModule",
+        "CommonModule",
+        "BrowserAnimationsModule"
+    ],
+    "documentation": {
+        "title": "Angular Standalone Components (v15+, default from v17+)",
+        "summary": "Standalone components, directives, and pipes don't need to be declared in an NgModule. From Angular 17+, standalone: true is the default and can be omitted.",
+        "bestPractices": [
+            "From Angular 19+, `standalone: true` is the default — no need to specify it explicitly",
+            "Import other standalone components/directives/pipes directly in the `imports` array of @Component",
+            "Use `bootstrapApplication()` instead of `platformBrowserDynamic().bootstrapModule()`",
+            "Use `provideRouter(routes)` instead of RouterModule.forRoot(routes)",
+            "Use `provideHttpClient()` instead of HttpClientModule",
+            "Use `provideAnimations()` instead of BrowserAnimationsModule",
+            "Lazy load standalone components in routes: `loadComponent: () => import('./path').then(m => m.MyComponent)`",
+            "For shared functionality, create barrel files or utility functions instead of SharedModules",
+            "If still using NgModules, use `importProvidersFrom()` to bridge the gap"
+        ],
+        "commonMistakes": [
+            "Forgetting to import dependencies directly in standalone component's `imports` array",
+            "Importing CommonModule when only specific directives are needed (import NgIf, NgFor individually, or better: use @if/@for)",
+            "Still using NgModules when standalone components would simplify the architecture",
+            "Not lazy loading standalone components in routes when possible",
+            "Using HttpClientModule instead of provideHttpClient() in standalone apps",
+            "In Angular 19+, specifying `standalone: true` explicitly is redundant (still works but unnecessary)"
+        ],
+        "codeExamples": {
+            "component": "@Component({\n  selector: 'app-user',\n  imports: [DatePipe, RouterLink],\n  template: `<a [routerLink]=\"'/user/' + user.id\">{{ user.created | date }}</a>`\n})\nexport class UserComponent {\n  user = input.required<User>();\n}",
+            "bootstrap": "// main.ts\nbootstrapApplication(AppComponent, {\n  providers: [\n    provideRouter(routes),\n    provideHttpClient(),\n    provideAnimations(),\n    provideZoneChangeDetection({ eventCoalescing: true })\n  ]\n});",
+            "lazyRoute": "// app.routes.ts\nexport const routes: Routes = [\n  {\n    path: 'dashboard',\n    loadComponent: () => import('./dashboard/dashboard.component').then(m => m.DashboardComponent)\n  }\n];"
+        }
+    }
+}

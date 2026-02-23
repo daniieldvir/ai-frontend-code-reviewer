@@ -1,4 +1,5 @@
 import { Component, input, output } from '@angular/core';
+import { AnalysisIssue } from '../../core/types';
 
 @Component({
   selector: 'app-info-popup',
@@ -6,11 +7,11 @@ import { Component, input, output } from '@angular/core';
   styleUrls: ['./info-popup.scss'],
 })
 export class InfoPopup {
-  public title = input<string>('');
-  public message = input<string>('');
+  public issue = input<AnalysisIssue | null>(null);
   public onClose = output<void>();
 
   close() {
     this.onClose.emit();
   }
 }
+

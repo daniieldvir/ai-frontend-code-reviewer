@@ -1,4 +1,4 @@
-import { Component, computed, output, signal } from '@angular/core';
+import { Component, output, signal } from '@angular/core';
 import { Framework } from '../../core/types';
 import { ErrorPopup } from '../error-popup/error-popup';
 import { FrameworkSelector } from '../framework-selector/framework-selector';
@@ -17,11 +17,6 @@ export class CodeInput {
   code = signal('');
   error = signal<string | null>(null);
   isClearing = signal(false);
-
-  formValue = computed(() => ({
-    framework: this.framework(),
-    code: this.code(),
-  }));
 
   onCodeInput(event: Event) {
     const target = event.target as HTMLTextAreaElement;

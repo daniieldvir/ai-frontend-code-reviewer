@@ -1,10 +1,12 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ThemeService {
   private theme = signal<'light' | 'dark'>('dark');
+
+  readonly isLightMode = computed(() => this.theme() === 'light');
 
   constructor() {
     const savedTheme = localStorage.getItem('theme') as 'light' | 'dark';
@@ -15,10 +17,6 @@ export class ThemeService {
     } else {
       this.setTheme('dark');
     }
-  }
-
-  isLightMode() {
-    return this.theme() === 'light';
   }
 
   toggleTheme() {

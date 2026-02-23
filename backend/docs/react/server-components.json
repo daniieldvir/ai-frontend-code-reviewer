@@ -1,0 +1,69 @@
+{
+    "concept": "server-components",
+    "framework": "react",
+    "version": "18+",
+    "keywords": [
+        "use server",
+        "use client",
+        "Server Component",
+        "Client Component",
+        "RSC",
+        "Suspense",
+        "lazy",
+        "server actions"
+    ],
+    "patterns": [
+        "'use server'",
+        "\"use server\"",
+        "'use client'",
+        "\"use client\"",
+        "Suspense",
+        "React\\.lazy\\(",
+        "lazy\\("
+    ],
+    "deprecatedKeywords": [
+        "React.createClass",
+        "createReactClass",
+        "mixins",
+        "PropTypes",
+        "defaultProps",
+        "getInitialState",
+        "getDefaultProps"
+    ],
+    "deprecatedPatterns": [
+        "React\\.createClass\\(",
+        "createReactClass\\(",
+        "PropTypes\\.",
+        "\\.defaultProps\\s*=",
+        "getInitialState\\(",
+        "getDefaultProps\\("
+    ],
+    "documentation": {
+        "title": "React Server Components & Suspense (v18+)",
+        "summary": "Server Components render on the server only. Client Components render on the client. This split enables better performance and smaller client bundles.",
+        "bestPractices": [
+            "Components are Server Components by default in Next.js App Router",
+            "Add 'use client' at the top of file to make it a Client Component",
+            "Keep 'use client' boundary as low as possible in the component tree",
+            "Server Components can import Client Components, but NOT vice versa",
+            "Pass Server Component data as props to Client Components",
+            "Use Suspense for loading states: `<Suspense fallback={<Loading />}><AsyncComponent /></Suspense>`",
+            "Server Actions use 'use server' directive for server-side mutations",
+            "async/await can be used directly in Server Components",
+            "Use React.lazy() for code splitting Client Components"
+        ],
+        "commonMistakes": [
+            "Using hooks (useState, useEffect) in Server Components — they only work in Client Components",
+            "Using browser APIs (window, document, localStorage) in Server Components",
+            "Adding 'use client' unnecessarily — this increases the client bundle size",
+            "Importing a Server Component into a Client Component — pass as children prop instead",
+            "Not using Suspense boundaries for async operations",
+            "Passing non-serializable props (functions, classes) from Server to Client Components"
+        ],
+        "codeExamples": {
+            "serverComponent": "// app/users/page.tsx (Server Component — no directive needed)\nexport default async function UsersPage() {\n  const users = await db.users.findMany();\n  return <UserList users={users} />;\n}",
+            "clientComponent": "'use client';\nimport { useState } from 'react';\n\nexport function Counter() {\n  const [count, setCount] = useState(0);\n  return <button onClick={() => setCount(c => c + 1)}>{count}</button>;\n}",
+            "suspense": "<Suspense fallback={<Skeleton />}>\n  <AsyncDataComponent />\n</Suspense>"
+        }
+    }
+}

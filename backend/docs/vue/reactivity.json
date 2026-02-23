@@ -1,0 +1,67 @@
+{
+    "concept": "reactivity",
+    "framework": "vue",
+    "version": "3+",
+    "keywords": [
+        "ref",
+        "reactive",
+        "shallowRef",
+        "shallowReactive",
+        "readonly",
+        "toRaw",
+        "markRaw",
+        "triggerRef",
+        "customRef"
+    ],
+    "patterns": [
+        "shallowRef\\(",
+        "shallowReactive\\(",
+        "readonly\\(",
+        "toRaw\\(",
+        "markRaw\\(",
+        "triggerRef\\(",
+        "customRef\\(",
+        "isRef\\(",
+        "isReactive\\(",
+        "isReadonly\\("
+    ],
+    "deprecatedKeywords": [
+        "Vue.observable",
+        "$forceUpdate",
+        "this.$set",
+        "this.$delete",
+        "Vue.set",
+        "Vue.delete",
+        "$data"
+    ],
+    "deprecatedPatterns": [
+        "Vue\\.observable\\(",
+        "\\$forceUpdate\\(",
+        "this\\.\\$set\\(",
+        "this\\.\\$delete\\(",
+        "Vue\\.set\\(",
+        "Vue\\.delete\\("
+    ],
+    "documentation": {
+        "title": "Vue 3 Reactivity In-Depth",
+        "summary": "Vue's reactivity system is based on JavaScript Proxies. Understanding it deeply helps avoid common pitfalls.",
+        "bestPractices": [
+            "Use shallowRef() for large objects/arrays when deep reactivity is not needed",
+            "Use readonly() to prevent mutations: `const readonlyState = readonly(state)`",
+            "Use toRaw() to get the original object from a reactive proxy (useful for serialization)",
+            "Use markRaw() for objects that should never be reactive (e.g., class instances, third-party objects)",
+            "Use customRef() for debounced or throttled refs",
+            "Prefer ref() over reactive() for consistency and to avoid destructuring issues"
+        ],
+        "commonMistakes": [
+            "Replacing entire reactive object loses reactivity: `state = { newData }` doesn't work, use Object.assign(state, newData)",
+            "Spreading reactive objects in templates loses reactivity",
+            "Not using shallowRef for performance-critical large data structures",
+            "Wrapping third-party class instances in reactive() — can cause unexpected behavior, use markRaw()"
+        ],
+        "codeExamples": {
+            "shallowRef": "const largeList = shallowRef([]);\n// Only triggers update when .value is reassigned\nlargeList.value = [...largeList.value, newItem];",
+            "customRef": "function useDebouncedRef(value, delay = 300) {\n  let timeout;\n  return customRef((track, trigger) => ({\n    get() { track(); return value; },\n    set(newValue) {\n      clearTimeout(timeout);\n      timeout = setTimeout(() => { value = newValue; trigger(); }, delay);\n    }\n  }));\n}"
+        }
+    }
+}

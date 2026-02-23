@@ -1,0 +1,89 @@
+{
+    "concept": "hooks",
+    "framework": "react",
+    "version": "16.8+",
+    "keywords": [
+        "useState",
+        "useEffect",
+        "useCallback",
+        "useMemo",
+        "useRef",
+        "useReducer",
+        "useContext",
+        "useId",
+        "useTransition",
+        "useDeferredValue"
+    ],
+    "patterns": [
+        "useState\\(",
+        "useEffect\\(",
+        "useCallback\\(",
+        "useMemo\\(",
+        "useRef\\(",
+        "useReducer\\(",
+        "useContext\\(",
+        "useId\\(",
+        "useTransition\\(",
+        "useDeferredValue\\("
+    ],
+    "deprecatedKeywords": [
+        "extends Component",
+        "extends React.Component",
+        "extends PureComponent",
+        "extends React.PureComponent",
+        "this.state",
+        "this.setState",
+        "this.props",
+        "componentDidMount",
+        "componentDidUpdate",
+        "componentWillUnmount",
+        "componentWillMount",
+        "componentWillReceiveProps",
+        "getDerivedStateFromProps",
+        "shouldComponentUpdate",
+        ".bind(this)",
+        "createRef"
+    ],
+    "deprecatedPatterns": [
+        "class\\s+\\w+\\s+extends\\s+(React\\.)?(Component|PureComponent)",
+        "this\\.state\\s*=",
+        "this\\.setState\\(",
+        "componentDidMount\\(",
+        "componentDidUpdate\\(",
+        "componentWillUnmount\\(",
+        "\\.bind\\(this\\)",
+        "React\\.createRef\\(",
+        "createRef\\("
+    ],
+    "documentation": {
+        "title": "React Hooks",
+        "summary": "Hooks are functions that let you use state and other React features in functional components.",
+        "bestPractices": [
+            "Hooks must be called at the top level — never inside loops, conditions, or nested functions",
+            "Hooks can only be called inside React function components or custom hooks",
+            "useEffect dependency array must include ALL reactive values used inside the effect",
+            "Use useCallback for functions passed as props to memoized children",
+            "Use useMemo for expensive computations, NOT for simple values",
+            "Use useRef for values that persist across renders but don't trigger re-renders",
+            "useEffect cleanup function must return a function or undefined — not a Promise",
+            "Use useId() for generating unique IDs for accessibility attributes",
+            "Use useTransition() for non-urgent state updates to keep UI responsive",
+            "Custom hooks must start with 'use' prefix"
+        ],
+        "commonMistakes": [
+            "Missing dependencies in useEffect — causes stale closures and bugs",
+            "Using useEffect for derived state — use useMemo or calculate during render instead",
+            "Unnecessary useEffect: don't use useEffect to transform data for rendering",
+            "Creating new objects/arrays in render without useMemo — causes unnecessary child re-renders",
+            "Calling setState in useEffect without proper dependency array — causes infinite loops",
+            "async function directly in useEffect — must define async function inside and call it",
+            "Overusing useMemo/useCallback — don't wrap everything, only when there's a measurable benefit",
+            "Not handling cleanup in useEffect — causes memory leaks with subscriptions, timers, event listeners"
+        ],
+        "codeExamples": {
+            "useState": "const [count, setCount] = useState(0);\nconst [user, setUser] = useState<User | null>(null);",
+            "useEffect": "useEffect(() => {\n  const controller = new AbortController();\n  fetch('/api/data', { signal: controller.signal })\n    .then(res => res.json())\n    .then(setData);\n  return () => controller.abort(); // Cleanup\n}, []);",
+            "useTransition": "const [isPending, startTransition] = useTransition();\n\nfunction handleChange(value) {\n  startTransition(() => {\n    setSearchResults(filterLargeList(value));\n  });\n}"
+        }
+    }
+}

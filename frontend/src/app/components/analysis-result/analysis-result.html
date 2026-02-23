@@ -1,39 +1,35 @@
 <div class="results-panel glass-panel">
   @if (loading()) {
-    <div class="section-header">
-      <h2 class="loading-text">Processing the analysis...</h2>
-    </div>
+  <div class="section-header">
+    <h2 class="loading-text">Processing the analysis...</h2>
+  </div>
   }
   @if (result()) {
-    <div class="section-header">
-      <h2>Review Status</h2>
-    </div>
-    <div class="result-container">
-      <div id="analysis-result" class="result-panel-content">
-        <div class="score-card">
-          <app-score-circle [score]="result()!.score" />
-        </div>
-        <div class="issues-list">
-          @for (issue of result()!.issues; track issue.id) {
-            <app-issue-item [issue]="issue" (explanationModal)="openExplanationModal($event)" />
-          }
-        </div>
+  <div class="section-header">
+    <h2>Review Status</h2>
+  </div>
+  <div class="result-container">
+    <div id="analysis-result" class="result-panel-content">
+      <div class="score-card">
+        <app-score-circle [score]="result()!.score" />
+      </div>
+      <div class="issues-list">
+        @for (issue of result()!.issues; track issue.id) {
+        <app-issue-item [issue]="issue" (explanationModal)="openExplanationModal($event)" />
+        }
       </div>
     </div>
+  </div>
   }
 
   @if (!loading() && !result()) {
-    <div class="empty-results">
-      <div class="pulse-icon">⚡</div>
-      <p>Ready to analyze your code...</p>
-    </div>
+  <div class="empty-results">
+    <div class="pulse-icon">⚡</div>
+    <p>Ready to analyze your code...</p>
+  </div>
   }
 </div>
 
 @if (infoPopupOpen() && infoPopupIssue()) {
-  <app-info-popup
-    [title]="infoPopupIssue()!.explanation"
-    [message]="infoPopupIssue()!.suggestion"
-    (onClose)="closeInfoPopup()"
-  />
+<app-info-popup [issue]="infoPopupIssue()!" (onClose)="closeInfoPopup()" />
 }

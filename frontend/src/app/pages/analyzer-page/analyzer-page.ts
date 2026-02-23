@@ -2,14 +2,13 @@ import { Component, inject } from '@angular/core';
 import { AnalysisResult } from '../../components/analysis-result/analysis-result';
 import { CodeInput } from '../../components/code-input/code-input';
 import { ErrorPopup } from '../../components/error-popup/error-popup';
-import { FrameworkSelector } from '../../components/framework-selector/framework-selector';
 import { Header } from '../../components/UI/header/header';
 import { AnalysisService } from '../../core/analysis-engine.service';
 import { Framework } from '../../core/types';
 
 @Component({
   selector: 'app-analyzer-page',
-  imports: [FrameworkSelector, AnalysisResult, CodeInput, ErrorPopup, Header],
+  imports: [AnalysisResult, CodeInput, ErrorPopup, Header],
   templateUrl: './analyzer-page.html',
   styleUrl: './analyzer-page.scss',
 })
@@ -20,7 +19,7 @@ export class AnalyzerPage {
   readonly loading = this.analysisService.loading;
 
   closeError() {
-    this.analysisService.error.set(null);
+    this.analysisService.clearError();
   }
 
   analyzeCode(data: { framework: Framework; code: string }) {
@@ -29,7 +28,7 @@ export class AnalyzerPage {
 
   inputChanged() {
     if (this.result()) {
-      this.analysisService.result.set(null);
+      this.analysisService.clearResult();
     }
   }
 }

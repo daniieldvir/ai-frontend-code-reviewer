@@ -1,0 +1,66 @@
+{
+    "concept": "signals",
+    "framework": "angular",
+    "version": "17+",
+    "keywords": [
+        "signal",
+        "computed",
+        "effect",
+        "WritableSignal",
+        "Signal",
+        "toSignal",
+        "toObservable"
+    ],
+    "patterns": [
+        "signal\\(",
+        "computed\\(",
+        "effect\\(",
+        "toSignal\\(",
+        "toObservable\\(",
+        "\\.set\\(",
+        "\\.update\\(",
+        "\\.asReadonly\\("
+    ],
+    "deprecatedKeywords": [
+        "BehaviorSubject",
+        "@Input()",
+        "@Output()",
+        "EventEmitter"
+    ],
+    "deprecatedPatterns": [
+        "@Input\\(",
+        "@Output\\(",
+        "new EventEmitter",
+        "new BehaviorSubject"
+    ],
+    "documentation": {
+        "title": "Angular Signals (v17+)",
+        "summary": "Signals are Angular's reactive primitive for state management, introduced in Angular 16 and stable from Angular 17+.",
+        "bestPractices": [
+            "Use `signal()` for mutable state: `count = signal(0)`",
+            "Use `computed()` for derived state: `double = computed(() => this.count() * 2)`",
+            "Use `effect()` for side effects that depend on signal values",
+            "Call signals as functions to read their value: `this.count()` not `this.count`",
+            "Use `.set()` for replacing, `.update()` for transforming based on previous value",
+            "Use `.asReadonly()` to expose read-only signals from services",
+            "Prefer signals over BehaviorSubject for simple synchronous state",
+            "Do NOT mutate arrays/objects inside signals — create new references: `this.items.update(list => [...list, newItem])`",
+            "Use `toSignal()` to convert Observables to Signals (requires initial value or `{requireSync: true}`)",
+            "Use `toObservable()` to convert Signals to Observables when needed for RxJS pipelines"
+        ],
+        "commonMistakes": [
+            "Reading signal without calling it: `this.count` instead of `this.count()`",
+            "Mutating objects/arrays in place inside signals instead of creating new references",
+            "Using effect() for derived state instead of computed()",
+            "Not providing initialValue when using toSignal() — will be undefined unless {requireSync: true}",
+            "Creating effects outside of injection context without using `injector` option",
+            "Using signals in templates without calling them: `{{ count }}` instead of `{{ count() }}`"
+        ],
+        "codeExamples": {
+            "basic": "count = signal(0);\nname = signal('Angular');\n\n// Read\nconsole.log(this.count()); // 0\n\n// Write\nthis.count.set(5);\nthis.count.update(v => v + 1);",
+            "computed": "count = signal(0);\ndouble = computed(() => this.count() * 2);\n// double() is always count() * 2, read-only",
+            "effect": "count = signal(0);\nconstructor() {\n  effect(() => {\n    console.log('Count changed:', this.count());\n  });\n}",
+            "toSignal": "// In a component or service with inject context\nusers = toSignal(this.http.get<User[]>('/api/users'), { initialValue: [] });"
+        }
+    }
+}

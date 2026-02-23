@@ -1,0 +1,76 @@
+{
+    "concept": "control-flow",
+    "framework": "angular",
+    "version": "17+",
+    "keywords": [
+        "@if",
+        "@else",
+        "@for",
+        "@switch",
+        "@case",
+        "@default",
+        "@empty",
+        "@defer",
+        "@placeholder",
+        "@loading"
+    ],
+    "patterns": [
+        "@if\\s*\\(",
+        "@for\\s*\\(",
+        "@switch\\s*\\(",
+        "@case\\s*\\(",
+        "@default",
+        "@empty",
+        "@defer",
+        "@placeholder",
+        "@loading",
+        "track\\s"
+    ],
+    "deprecatedKeywords": [
+        "*ngIf",
+        "*ngFor",
+        "*ngSwitch",
+        "ngSwitchCase",
+        "ngSwitchDefault",
+        "[ngSwitch]",
+        "trackBy"
+    ],
+    "deprecatedPatterns": [
+        "\\*ngIf",
+        "\\*ngFor",
+        "\\*ngSwitch",
+        "\\[ngSwitch\\]",
+        "ngSwitchCase",
+        "trackBy:"
+    ],
+    "documentation": {
+        "title": "Angular Built-in Control Flow (v17+)",
+        "summary": "Angular 17 introduced a new built-in control flow syntax that replaces *ngIf, *ngFor, and *ngSwitch directives. This is the recommended approach going forward.",
+        "bestPractices": [
+            "@if replaces *ngIf: `@if (condition) { <div>...</div> } @else { <div>...</div> }`",
+            "@for replaces *ngFor and REQUIRES a `track` expression: `@for (item of items; track item.id) { ... }`",
+            "track is MANDATORY in @for — it replaces trackBy and must be a unique expression per item",
+            "@for supports @empty block for when collection is empty: `@for (...) { ... } @empty { <p>No items</p> }`",
+            "@switch replaces *ngSwitch: `@switch (value) { @case ('a') { ... } @default { ... } }`",
+            "@defer enables lazy loading of template blocks with conditions",
+            "@defer supports @placeholder, @loading, and @error blocks",
+            "Do NOT mix old *ngIf/*ngFor with new @if/@for in the same template — pick one style",
+            "When migrating, use Angular CLI: `ng generate @angular/core:control-flow`"
+        ],
+        "commonMistakes": [
+            "Forgetting `track` in @for — this is REQUIRED and will cause a compilation error",
+            "Using `trackBy` function syntax instead of `track` expression: use `track item.id` not `trackBy: trackById`",
+            "Using `*ngIf` and `@if` in the same template — be consistent",
+            "Not adding @empty block in @for when the list could be empty",
+            "Incorrect @defer syntax — conditions go in parentheses: `@defer (on viewport) { ... }`",
+            "Using `let i = index` syntax from *ngFor — in @for use: `@for (item of items; track item.id; let i = $index)`",
+            "Built-in variables in @for: $index, $first, $last, $even, $odd, $count"
+        ],
+        "codeExamples": {
+            "if": "@if (user) {\n  <h1>Hello {{ user.name }}</h1>\n} @else if (loading) {\n  <p>Loading...</p>\n} @else {\n  <p>Please log in</p>\n}",
+            "for": "@for (item of items; track item.id; let idx = $index) {\n  <li>{{ idx + 1 }}. {{ item.name }}</li>\n} @empty {\n  <li>No items found</li>\n}",
+            "switch": "@switch (status) {\n  @case ('active') { <span class=\"active\">Active</span> }\n  @case ('inactive') { <span>Inactive</span> }\n  @default { <span>Unknown</span> }\n}",
+            "defer": "@defer (on viewport) {\n  <heavy-component />\n} @placeholder {\n  <p>Scroll to load</p>\n} @loading (minimum 500ms) {\n  <spinner />\n}"
+        }
+    }
+}

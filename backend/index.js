@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import express from "express";
 import OpenAI from "openai";
 import { rules } from "./groq-rules.js";
+import { buildDocsContext, getDocsStatus } from "./concept-detector.js";
 
 dotenv.config();
 
@@ -21,6 +22,12 @@ app.get("/", (req, res) => {
   res.send("Backend is running! 🚀");
 });
 
+// Documentation status endpoint (for debugging)
+app.get("/docs-status", (req, res) => {
+  const status = getDocsStatus();
+  res.json({ status: "ok", documentation: status });
+});
+
 // Groq client (using OpenAI compatible SDK)
 const groq = new OpenAI({
   apiKey: process.env.GROQ_API_KEY || process.env.OPENAI_API_KEY,
@@ -32,6 +39,9 @@ function buildPrompt(code, framework) {
   // Normalize framework name to lowercase for rules lookup
   const frameworkKey = framework.toLowerCase();
   const frameworkRules = rules[frameworkKey] || "";
+
+  // Get relevant documentation context based on concepts detected in the code
+  const docsContext = buildDocsContext(code, frameworkKey);
 
   return `
 You are a senior frontend engineer.
@@ -49,6 +59,7 @@ Examples:
 
 IMPORTANT RULES FOR ${framework.toUpperCase()}:
 ${frameworkRules}
+${docsContext}
 
 Return ONLY valid JSON with this structure:
 {
@@ -57,8 +68,9 @@ Return ONLY valid JSON with this structure:
     {
       "category": "performance|readability|security|best-practice|syntax|compilation",
       "severity": "low|medium|high|critical",
-      "explanation": "string",
-      "suggestion": "string"
+      "explanation": "string (brief, 1-2 sentences)",
+      "suggestion": "string (brief, actionable fix)",
+      "detailedExplanation": "string (detailed 3-5 sentence educational explanation: WHY this is an issue, what problems it causes, the modern/recommended approach with a short code example if relevant, and links to concepts the developer should learn)"
     }
   ]
 }

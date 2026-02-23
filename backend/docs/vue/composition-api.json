@@ -1,0 +1,100 @@
+{
+    "concept": "composition-api",
+    "framework": "vue",
+    "version": "3+",
+    "keywords": [
+        "ref",
+        "reactive",
+        "computed",
+        "watch",
+        "watchEffect",
+        "onMounted",
+        "onUnmounted",
+        "defineProps",
+        "defineEmits",
+        "script setup",
+        "toRef",
+        "toRefs",
+        "shallowRef"
+    ],
+    "patterns": [
+        "ref\\(",
+        "reactive\\(",
+        "computed\\(",
+        "watch\\(",
+        "watchEffect\\(",
+        "onMounted\\(",
+        "onUnmounted\\(",
+        "defineProps",
+        "defineEmits",
+        "defineExpose",
+        "<script setup",
+        "toRef\\(",
+        "toRefs\\(",
+        "shallowRef\\("
+    ],
+    "deprecatedKeywords": [
+        "data()",
+        "methods:",
+        "mounted()",
+        "created()",
+        "beforeDestroy",
+        "destroyed()",
+        "this.$refs",
+        "this.$emit",
+        "this.$watch",
+        "this.$set",
+        "Vue.set",
+        "Vue.delete",
+        "filters:",
+        "mixins:",
+        "Vue.component",
+        "Vue.mixin",
+        "Vue.filter"
+    ],
+    "deprecatedPatterns": [
+        "data\\s*\\(\\s*\\)\\s*\\{",
+        "methods\\s*:",
+        "computed\\s*:\\s*\\{",
+        "mounted\\s*\\(\\s*\\)",
+        "created\\s*\\(\\s*\\)",
+        "beforeDestroy\\s*\\(",
+        "destroyed\\s*\\(",
+        "this\\.\\$refs",
+        "this\\.\\$emit\\(",
+        "this\\.\\$watch\\(",
+        "Vue\\.component\\(",
+        "Vue\\.mixin\\(",
+        "mixins\\s*:"
+    ],
+    "documentation": {
+        "title": "Vue 3 Composition API & Script Setup",
+        "summary": "The Composition API is Vue 3's recommended approach for organizing component logic. <script setup> is the recommended syntax for using Composition API in SFCs.",
+        "bestPractices": [
+            "Use `<script setup>` for cleaner, more concise components",
+            "Use `ref()` for primitives and single values: `const count = ref(0)`",
+            "Use `reactive()` for objects: `const state = reactive({ count: 0, name: '' })`",
+            "Use `computed()` for derived state — it's cached and only recalculates when dependencies change",
+            "Use `watch()` for watching specific sources; `watchEffect()` for auto-tracking dependencies",
+            "Access ref values with `.value` in script, but NOT in templates (auto-unwrapped)",
+            "Use `defineProps()` and `defineEmits()` in `<script setup>` for type-safe props and events",
+            "Use `onMounted()` for DOM access and side effects, `onUnmounted()` for cleanup",
+            "Use `toRef()` and `toRefs()` to maintain reactivity when destructuring reactive objects",
+            "Use `shallowRef()` for large objects where deep reactivity isn't needed"
+        ],
+        "commonMistakes": [
+            "Forgetting `.value` when accessing refs in script: `count.value++` not `count++`",
+            "Destructuring reactive objects loses reactivity — use `toRefs()`: `const { name } = toRefs(state)`",
+            "Using reactive() for primitives — it only works with objects, use ref() instead",
+            "Not cleaning up side effects in onUnmounted (timers, event listeners, subscriptions)",
+            "Watching a reactive object property directly: use getter `watch(() => state.count, ...)` not `watch(state.count, ...)`",
+            "Mutating props directly — emit events instead",
+            "Using Options API and Composition API inconsistently in the same project"
+        ],
+        "codeExamples": {
+            "scriptSetup": "<script setup lang=\"ts\">\nimport { ref, computed, onMounted } from 'vue';\n\nconst count = ref(0);\nconst doubled = computed(() => count.value * 2);\n\nfunction increment() {\n  count.value++;\n}\n\nonMounted(() => {\n  console.log('Component mounted');\n});\n</script>",
+            "propsEmits": "<script setup lang=\"ts\">\nconst props = defineProps<{ title: string; count?: number }>();\nconst emit = defineEmits<{ update: [value: number] }>();\n\nfunction handleClick() {\n  emit('update', props.count ?? 0 + 1);\n}\n</script>",
+            "watchExample": "const searchQuery = ref('');\nconst results = ref([]);\n\nwatch(searchQuery, async (newQuery) => {\n  if (newQuery.length > 2) {\n    results.value = await fetchResults(newQuery);\n  }\n}, { debounce: 300 });"
+        }
+    }
+}

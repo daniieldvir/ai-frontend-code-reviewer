@@ -1,0 +1,59 @@
+{
+    "concept": "inject",
+    "framework": "angular",
+    "version": "14+",
+    "keywords": [
+        "inject",
+        "InjectionToken",
+        "providedIn",
+        "DestroyRef",
+        "takeUntilDestroyed"
+    ],
+    "patterns": [
+        "inject\\(",
+        "InjectionToken",
+        "providedIn",
+        "DestroyRef",
+        "takeUntilDestroyed"
+    ],
+    "deprecatedKeywords": [
+        "constructor(private",
+        "constructor(public",
+        "constructor(readonly",
+        "OnDestroy",
+        "ngOnDestroy",
+        "Subscription",
+        ".unsubscribe()"
+    ],
+    "deprecatedPatterns": [
+        "constructor\\s*\\(\\s*(private|public|readonly)",
+        "implements OnDestroy",
+        "\\.unsubscribe\\(",
+        "new Subscription"
+    ],
+    "documentation": {
+        "title": "Angular inject() Function & Dependency Injection (v14+)",
+        "summary": "The inject() function allows injecting dependencies without constructor injection. It must be called in an injection context (constructor, field initializer, or factory function).",
+        "bestPractices": [
+            "Use `inject()` for cleaner DI: `private http = inject(HttpClient)` instead of `constructor(private http: HttpClient)`",
+            "inject() MUST be called in injection context: field initializers, constructor, or factory functions",
+            "Use `DestroyRef` with `takeUntilDestroyed()` for automatic subscription cleanup",
+            "Use `providedIn: 'root'` for singleton services",
+            "inject() works in standalone components, directives, pipes, and services",
+            "Can use inject() in functional guards and resolvers",
+            "Use InjectionToken for non-class dependencies: `const API_URL = new InjectionToken<string>('API_URL')`"
+        ],
+        "commonMistakes": [
+            "Calling inject() outside injection context (e.g., in a regular method or callback) — will throw runtime error",
+            "Mixing constructor DI and inject() in same class — choose one style for consistency",
+            "Forgetting to provide services — `providedIn: 'root'` or provide in component/route providers",
+            "Not using DestroyRef for cleanup — prefer `takeUntilDestroyed()` over manual unsubscribe",
+            "Using inject() in ngOnInit or other lifecycle hooks — must be in constructor or field initializer"
+        ],
+        "codeExamples": {
+            "basic": "@Component({ ... })\nexport class UserComponent {\n  private userService = inject(UserService);\n  private route = inject(ActivatedRoute);\n  private router = inject(Router);\n}",
+            "destroyRef": "export class MyComponent {\n  private destroyRef = inject(DestroyRef);\n  private http = inject(HttpClient);\n\n  ngOnInit() {\n    this.http.get('/api/data').pipe(\n      takeUntilDestroyed(this.destroyRef)\n    ).subscribe(data => { ... });\n  }\n}",
+            "functionalGuard": "export const authGuard: CanActivateFn = () => {\n  const auth = inject(AuthService);\n  const router = inject(Router);\n  return auth.isLoggedIn() ? true : router.createUrlTree(['/login']);\n};"
+        }
+    }
+}
