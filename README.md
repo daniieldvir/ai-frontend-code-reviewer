@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/daniieldvir/ai-frontend-code-reviewer/main/frontend/src/assets/logo.png" alt="AI Frontend Code Reviewer Logo" width="200" height="auto" />
+  <img src="frontend/public/favicon.png" alt="AI Frontend Code Reviewer Logo" width="200" height="auto" />
   <h1>🚀 AI Frontend Code Reviewer</h1>
   <p>An intelligent, real-time code analysis tool designed for modern frontend engineers. Paste your code, select your framework, and get instant feedback on performance, readability, and best practices—powered by advanced AI.</p>
 
@@ -20,7 +20,6 @@
 - [📷 Screenshots](#-screenshots)
 - [🚀 Quick Start](#-quick-start)
 - [📦 Deployment Workflow](#-deployment-workflow)
-- [🤝 Contributing](#-contributing)
 - [📄 License](#-license)
 
 ---
@@ -92,19 +91,6 @@ This project is configured with a hybrid continuous deployment model:
    - Command: `npm run deploy` (run inside the `/frontend` folder)
 2. **Backend**: Deployed to Render directly from the `main` branch.
    - Triggers automatic deployment on every `git push origin main`.
-
----
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome! 
-If you want to contribute, please follow these steps:
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
 ---
 
