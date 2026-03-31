@@ -22,10 +22,18 @@ app.use(
   }),
 );
 app.use(express.json());
+app.use((req, res, next) => {
+  console.log(`[request] ${req.method} ${req.originalUrl}`);
+  next();
+});
 
 // Health check endpoint
 app.get("/", (req, res) => {
   res.send("Backend is running! 🚀");
+});
+
+app.get("/healthz", (req, res) => {
+  res.status(200).json({ ok: true });
 });
 
 // Documentation status endpoint (for debugging)
