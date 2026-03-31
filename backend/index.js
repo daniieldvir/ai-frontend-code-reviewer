@@ -8,9 +8,15 @@ import { buildDocsContext, getDocsStatus } from "./concept-detector.js";
 dotenv.config();
 
 const app = express();
+const allowedOrigins = [
+  "http://localhost:4200",
+  "https://daniieldvir.github.io",
+  process.env.FRONTEND_URL,
+].filter(Boolean);
+
 app.use(
   cors({
-    origin: ["http://localhost:4200", "https://daniieldvir.github.io"],
+    origin: allowedOrigins,
     methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
@@ -135,5 +141,8 @@ app.post("/analyze", async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));
+const PORT = Number(process.env.PORT) || 3000;
+const HOST = "0.0.0.0";
+app.listen(PORT, HOST, () => {
+  console.log(`Backend running on http://${HOST}:${PORT}`);
+});
