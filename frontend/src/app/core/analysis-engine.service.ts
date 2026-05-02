@@ -3,7 +3,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { catchError, finalize, Observable, throwError } from 'rxjs';
 import { AnalysisResult, Framework } from './types';
 
-const PRODUCTION_URL = 'https://ai-frontend-code-reviewer-production.up.railway.app';
+const PRODUCTION_URL = 'https://ai-frontend-code-reviewer.onrender.com';
 const LOCAL_URL = 'http://localhost:3000';
 
 const severityOrder: Record<string, number> = {
